@@ -1,5 +1,10 @@
 package org.logogenesis.wording;
 
+/**
+ * A word as a part of a wording.
+ * 
+ * @author Daniel Couto Vale <danielvale@uni-bremen.de>
+ */
 public class Word {
 
 	private final String wording;

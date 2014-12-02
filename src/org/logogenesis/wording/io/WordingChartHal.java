@@ -15,7 +15,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * A wording segmentation in the format Systemic Functional Theory
+ * A wording segmentation in the format Human Adult Language (HAL).
  * 
  * @author Daniel Couto Vale <danielvale@uni-bremen.de>
  */

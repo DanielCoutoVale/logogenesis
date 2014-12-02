@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  * A storable entity.
  * 
- * @author Daniel Couto Vale <danielvale@icloud.com>
+ * @author Daniel Couto Vale <danielvale@uni-bremen.de>
  */
 public interface Storable {
 

@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A word recogniser is an automaton for recognising words.
+ * A word recognizer that implements a holistic approach to word recognition. It uses an automaton
+ * for recognising words.
  * 
  * @author Daniel Couto Vale <danielvale@uni-bremen.de>
  */
 public class HolisticWordRecognizer {
 
+	/**
+	 * The id of the next recognized word
+	 */
 	private static int nextId = 1;
 
 	/**
@@ -29,7 +33,7 @@ public class HolisticWordRecognizer {
 	}
 
 	/**
-	 * Adds a word type to the word recogniser
+	 * Adds a word type to the word recognizer
 	 *  
 	 * @param pattern the pattern to add
 	 * @param sort the sort of the word (combinatory type)
@@ -41,7 +45,7 @@ public class HolisticWordRecognizer {
 	}
 
 	/**
-	 * Adds a word type to the word recogniser
+	 * Adds a word type to the word recognizer
 	 *  
 	 * @param pattern the pattern to add
 	 * @param sort the sort of the word (combinatory type)
