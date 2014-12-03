@@ -138,16 +138,21 @@ public final class WordingChartHal implements WordingChart, Storable {
 	}
 
 	@Override
-	public final Word getWord(int elmId) {
-		Element wordElm = document.getElementById(Integer.toString(elmId));
-		Word word = makeWord(wordElm);
-		return word;
+	public final Word getWord(int id) {
+		try {
+			String expression = "/WordingChart/Word[@id='" + Integer.toString(id) + "']";
+			Element wordElm = (Element) xpath.compile(expression).evaluate(this.document, XPathConstants.NODE);
+			Word word = makeWord(wordElm);
+			return word;
+		} catch (XPathExpressionException e) {
+			return null;
+		}
 	}
 
 	@Override
 	public final List<Word> getWordsStartingAt(int start) {
 		try {
-			String expression = "/WordChart/Word[@start='" + Integer.toString(start) + "']";
+			String expression = "/WordingChart/Word[@start='" + Integer.toString(start) + "']";
 			NodeList wordElms = (NodeList) xpath.compile(expression).evaluate(this.document, XPathConstants.NODESET);
 			List<Word> words = new LinkedList<Word>();
 			for (int i = 0; i < wordElms.getLength(); i++) {
@@ -164,7 +169,7 @@ public final class WordingChartHal implements WordingChart, Storable {
 	@Override
 	public final List<Word> getWordsEndingAt(int end) {
 		try {
-			String expression = "/WordChart/Word[@end='" + Integer.toString(end) + "']";
+			String expression = "/WordingChart/Word[@end='" + Integer.toString(end) + "']";
 			NodeList wordElms = (NodeList) xpath.compile(expression).evaluate(this.document, XPathConstants.NODESET);
 			List<Word> words = new LinkedList<Word>();
 			for (int i = 0; i < wordElms.getLength(); i++) {
@@ -180,8 +185,12 @@ public final class WordingChartHal implements WordingChart, Storable {
 
 	@Override
 	public final void removeWord(int id) {
-		Element wordElm = document.getElementById(Integer.toString(id));
-		document.removeChild(wordElm);
+		try {
+			String expression = "/WordingChart/Word[@id='" + Integer.toString(id) + "']";
+			Element wordElm = (Element) xpath.compile(expression).evaluate(this.document, XPathConstants.NODE);
+			wordElm.getParentNode().removeChild(wordElm);
+		} catch (XPathExpressionException e) {
+		}
 	}
 
 	@Override
