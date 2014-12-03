@@ -10,7 +10,7 @@ import static java.lang.Character.*;
 /**
  * A wording segmenter that implements a reductionist theory of wording parts.
  *  
- * @author Daniel Couto Vale <danielvale@uni-bremen.de>
+ * @author Daniel Couto-Vale
  */
 public class ReductionistWordingSegmenter implements WordingSegmenter {
 

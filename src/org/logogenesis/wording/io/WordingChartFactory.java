@@ -13,7 +13,7 @@ import org.w3c.dom.Element;
 /**
  * A factory of wording charts. It represents a wording chart as a storable document.
  * 
- * @author Daniel Couto Vale <danielvale@uni-bremen.de>
+ * @author Daniel Couto-Vale
  */
 public class WordingChartFactory {
 

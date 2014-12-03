@@ -8,7 +8,7 @@ import org.logogenesis.wording.io.WordingChartFactory;
 /**
  * A wording segmenter that implements a holistic approach to segmentation.
  * 
- * @author Daniel Couto Vale <danielvale@uni-bremen.de>
+ * @author Daniel Couto-Vale
  */
 public class HolisticWordingSegmenter implements WordingSegmenter {
 

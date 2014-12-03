@@ -11,7 +11,7 @@ import org.logogenesis.wording.io.WordingChart;
 /**
  * Segments a wording using a wording segmenter.
  * 
- * @author Daniel Couto Vale <danielvale@uni-bremen.de>
+ * @author Daniel Couto-Vale
  */
 public class UsageExample {
 

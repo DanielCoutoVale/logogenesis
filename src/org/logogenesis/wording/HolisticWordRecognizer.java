@@ -9,7 +9,7 @@ import java.util.Map;
  * A word recognizer that implements a holistic approach to word recognition. It uses an automaton
  * for recognising words.
  * 
- * @author Daniel Couto Vale <danielvale@uni-bremen.de>
+ * @author Daniel Couto-Vale
  */
 public class HolisticWordRecognizer {
 
