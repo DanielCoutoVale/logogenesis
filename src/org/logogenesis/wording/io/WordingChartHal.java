@@ -92,6 +92,8 @@ public final class WordingChartHal implements WordingChart, Storable {
 	@Override
 	public final void setWording(String wording) {
 		this.wording = wording;
+		Element chartElm = document.getDocumentElement();
+		chartElm.setAttribute("form", wording);
 	}
 
 	@Override
