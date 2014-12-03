@@ -79,11 +79,11 @@ public final class WordingChartHal implements WordingChart, Storable {
 	public final boolean isListable() {
 		int start = 0;
 		while (start < wording.length()) {
-			int size = getWords(start).size();
+			int size = getWordsStartingAt(start).size();
 			if (size != 1) {
 				return false;
 			} else {
-				start += getWords(start).get(0).getLength();
+				start += getWordsStartingAt(start).get(0).getLength();
 			}
 		}
 		return true;
@@ -112,6 +112,7 @@ public final class WordingChartHal implements WordingChart, Storable {
 		wordElm.setAttribute("id", Integer.toString(id));
 		wordElm.setAttribute("start", Integer.toString(start));
 		wordElm.setAttribute("length", Integer.toString(length));
+		wordElm.setAttribute("end", Integer.toString(start + length));
 		wordElm.setAttribute("form", this.wording.substring(start, start + length));
 		Element chartElm = document.getDocumentElement();
 		chartElm.appendChild(wordElm);
@@ -144,9 +145,26 @@ public final class WordingChartHal implements WordingChart, Storable {
 	}
 
 	@Override
-	public final List<Word> getWords(int start) {
+	public final List<Word> getWordsStartingAt(int start) {
 		try {
 			String expression = "/WordChart/Word[@start='" + Integer.toString(start) + "']";
+			NodeList wordElms = (NodeList) xpath.compile(expression).evaluate(this.document, XPathConstants.NODESET);
+			List<Word> words = new LinkedList<Word>();
+			for (int i = 0; i < wordElms.getLength(); i++) {
+				Element wordElm = (Element) wordElms.item(i);
+				Word word = makeWord(wordElm);
+				words.add(word);
+			}
+			return words;
+		} catch (XPathExpressionException e) {
+			return new LinkedList<Word>();
+		}
+	}
+
+	@Override
+	public final List<Word> getWordsEndingAt(int end) {
+		try {
+			String expression = "/WordChart/Word[@end='" + Integer.toString(end) + "']";
 			NodeList wordElms = (NodeList) xpath.compile(expression).evaluate(this.document, XPathConstants.NODESET);
 			List<Word> words = new LinkedList<Word>();
 			for (int i = 0; i < wordElms.getLength(); i++) {

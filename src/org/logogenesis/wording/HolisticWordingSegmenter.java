@@ -30,15 +30,14 @@ public class HolisticWordingSegmenter implements WordingSegmenter {
 	 * @see org.hal.wording.WordingSegmenter#segmentWording(java.lang.String)
 	 */
 	@Override
-	public WordingChart segmentWording(String wording) {
+	public final WordingChart segmentWording(String wording) {
 		try {
-			WordingChartFactory wordingChartFactory = new WordingChartFactory();
-			WordingChart chart = wordingChartFactory.newWordingChart();
-			chart.setWording(wording);
-			for (int index = 0; index < wording.length(); index++) {
-				for (Word word : wordRecognizer.recognizeWords(wording, index)) {
-					chart.addWord(word);
-				}
+			WordingChart chart = wordRecognizer.recognizeWords(wording);
+			boolean[] direct = new boolean[wording.length() + 1];
+			boolean[] reverse = new boolean[wording.length() + 1];
+			direct[0] = true;
+			reverse[wording.length()] = true; 
+			for (int i = 0; i < wording.length(); i++) {
 			}
 			return chart;
 		} catch (IOException e) {

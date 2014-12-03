@@ -1,9 +1,13 @@
 package org.logogenesis.wording;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.logogenesis.wording.io.WordingChart;
+import org.logogenesis.wording.io.WordingChartFactory;
 
 /**
  * A word recognizer that implements a holistic approach to word recognition. It uses an automaton
@@ -80,13 +84,32 @@ public class HolisticWordRecognizer {
 	}
 
 	/**
+	 * Recognizes words in a wording
+	 * 
+	 * @param wording the wording
+	 * @return a chart with recognized words
+	 * @throws IOException when a chart document cannot be created
+	 */
+	public final WordingChart recognizeWords(String wording) throws IOException {
+		WordingChartFactory wordingChartFactory = new WordingChartFactory();
+		WordingChart chart = wordingChartFactory.newWordingChart();
+		chart.setWording(wording);
+		for (int index = 0; index < wording.length(); index++) {
+			for (Word word : recognizeWords(wording, index)) {
+				chart.addWord(word);
+			}
+		}
+		return chart;
+	}
+
+	/**
 	 * Recognizes words.
 	 * 
 	 * @param wording the wording where to recognize words
 	 * @param index the index of where to recognize words
 	 * @return the types of the recognized words
 	 */
-	public final List<Word> recognizeWords(String wording, int index) {
+	private final List<Word> recognizeWords(String wording, int index) {
 		List<Word> words = new LinkedList<Word>();
 		recognizeWords(wording, index, words);
 		return words;

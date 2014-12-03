@@ -70,7 +70,15 @@ public interface WordingChart {
 	 * @param start the start node
 	 * @return the words starting at the given node
 	 */
-	public List<Word> getWords(int start);
+	public List<Word> getWordsStartingAt(int start);
+
+	/**
+	 * The list of words ending at a given node.
+	 * 
+	 * @param start the start node
+	 * @return the words ending at the given node
+	 */
+	public List<Word> getWordsEndingAt(int end);
 
 	/**
 	 * Removes the identified word from the chart.

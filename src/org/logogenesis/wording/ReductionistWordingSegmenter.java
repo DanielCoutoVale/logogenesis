@@ -18,7 +18,7 @@ public class ReductionistWordingSegmenter implements WordingSegmenter {
 	 * @see org.hal.wording.WordingSegmenter#segmentWording(java.lang.String)
 	 */
 	@Override
-	public WordingChart segmentWording(String wording) {
+	public final WordingChart segmentWording(String wording) {
 		try {
 			WordingChartFactory wordingChartFactory = new WordingChartFactory();
 			WordingChart chart = wordingChartFactory.newWordingChart();
