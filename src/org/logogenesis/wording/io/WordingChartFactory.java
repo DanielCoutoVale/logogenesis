@@ -64,7 +64,7 @@ public class WordingChartFactory {
 	 */
 	private final File newFile() throws IOException {
 		// FIXME Use the user library of each platform (OSX, Linux, Windows) instead of user home
-		// OSX      => {user.home}/Library + /HAL
+		// OSX      => {user.home}/Library + /Logogenesis
 		// Linux    => ??
 		// Windows  => ??
 		String userHome = System.getProperty("user.home");
