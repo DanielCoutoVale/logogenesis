@@ -68,14 +68,11 @@ public class WordingChartFactory {
 		// Linux    => ??
 		// Windows  => ??
 		String userHome = System.getProperty("user.home");
-		File file = new File(userHome, "Untitled.hal");
-		int index = 1;
-		while (file.exists()) {
-			file = new File(userHome, "Untitled " + (++index) + ".hal");
-		}
-		String prefix = file.getName().split("[.]")[0];
-		String suffix = file.getName().split("[.]")[1];
-		return File.createTempFile(prefix, suffix, new File(userHome));
+		String prefix = "Untitled";
+		String suffix = ".hal";
+		File file = File.createTempFile(prefix, suffix, new File(userHome));
+		file.deleteOnExit();
+		return file;
 	}
 
 }

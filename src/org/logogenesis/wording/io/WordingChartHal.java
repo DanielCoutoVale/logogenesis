@@ -113,8 +113,8 @@ public final class WordingChartHal implements WordingChart, Storable {
 		wordElm.setAttribute("start", Integer.toString(start));
 		wordElm.setAttribute("length", Integer.toString(length));
 		wordElm.setAttribute("form", this.wording.substring(start, start + length));
-		Element chart = document.getDocumentElement();
-		chart.appendChild(wordElm);
+		Element chartElm = document.getDocumentElement();
+		chartElm.appendChild(wordElm);
 		for (int i = 0; i < types.length; i++) {
 			Element wordTypeElm = document.createElement("WordType");
 			wordTypeElm.setAttribute("index", Integer.toString(types[i]));
