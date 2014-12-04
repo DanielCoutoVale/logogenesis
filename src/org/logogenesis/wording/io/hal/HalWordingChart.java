@@ -21,7 +21,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Daniel Couto-Vale
  */
-public final class WordingChartHal implements WordingChart, Storable {
+public final class HalWordingChart implements WordingChart, Storable {
 
 	/**
 	 * The document of the wording segmentation
@@ -48,7 +48,7 @@ public final class WordingChartHal implements WordingChart, Storable {
 	 * 
 	 * @param document the document of the wording segmentation
 	 */
-	WordingChartHal(Document document, Storable storable) {
+	HalWordingChart(Document document, Storable storable) {
 		this.document = document;
 		this.storable = storable;
 		Element chartElm = document.getDocumentElement();

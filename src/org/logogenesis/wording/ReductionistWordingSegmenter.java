@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.logogenesis.wording.io.WordingChart;
 import org.logogenesis.wording.io.WordingChartFactory;
+import org.logogenesis.wording.io.hal.HalWordingChartFactory;
 
 import static java.lang.Character.*;
 
@@ -14,14 +15,34 @@ import static java.lang.Character.*;
  */
 public class ReductionistWordingSegmenter implements WordingSegmenter {
 
+	/**
+	 * The wording chart factory
+	 */
+	private WordingChartFactory wordingChartFactory;
+
+	/**
+	 * Constructor
+	 */
+	public ReductionistWordingSegmenter() {
+		this(new HalWordingChartFactory());
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param wordingChartFactory the wording chart factory
+	 */
+	public ReductionistWordingSegmenter(WordingChartFactory wordingChartFactory) {
+		this.wordingChartFactory = wordingChartFactory;
+	}
+
 	/* (non-Javadoc)
 	 * @see org.hal.wording.WordingSegmenter#segmentWording(java.lang.String)
 	 */
 	@Override
 	public final WordingChart segmentWording(String wording) {
 		try {
-			WordingChartFactory wordingChartFactory = new WordingChartFactory();
-			WordingChart chart = wordingChartFactory.newWordingChartHal();
+			WordingChart chart = wordingChartFactory.newWordingChart();
 			chart.setWording(wording);
 			int nextId = 1;
 			int start = 0;

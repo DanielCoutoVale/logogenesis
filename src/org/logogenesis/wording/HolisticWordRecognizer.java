@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.logogenesis.wording.io.WordingChart;
 import org.logogenesis.wording.io.WordingChartFactory;
+import org.logogenesis.wording.io.hal.HalWordingChartFactory;
 
 /**
  * A word recognizer that implements a holistic approach to word recognition. It uses an automaton
@@ -26,14 +27,49 @@ public class HolisticWordRecognizer {
 	 * Map from character to word recognizers
 	 */
 	private final Map<Character, HolisticWordRecognizer> recognizerMap;
+
+	/**
+	 * The wording selected wording chart factory 
+	 */
+	private final WordingChartFactory wordingChartFactory;
+
+	/**
+	 * The types map
+	 */
 	private Map<Character, List<Integer>> typesMap;
+
+	/**
+	 * The length of the forms stored in this map
+	 */
 	private int length;
+
 
 	/**
 	 * Constructor
 	 */
 	public HolisticWordRecognizer() {
+		this(new HalWordingChartFactory(), 1);
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param wordingChartFactory the wording chart factory
+	 */
+	public HolisticWordRecognizer(WordingChartFactory wordingChartFactory) {
+		this(wordingChartFactory, 1);
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param wordingChartFactory the wording chart factory
+	 * @param length the length of the words stored at this level
+	 */
+	private HolisticWordRecognizer(WordingChartFactory wordingChartFactory, int length) {
 		recognizerMap = new HashMap<Character, HolisticWordRecognizer>();
+		this.wordingChartFactory = wordingChartFactory;
+		this.length = length;
 	}
 
 	/**
@@ -58,14 +94,11 @@ public class HolisticWordRecognizer {
 	 * @param index the index of the pattern
 	 */
 	public final void addWordType(String pattern, int type, int index) {
-		if (length == 0) {
-			length = index + 1;
-		}
 		if (index + 1 < pattern.length()) {
 			char ch = pattern.charAt(index);
 			HolisticWordRecognizer recognizer = recognizerMap.get(ch);
 			if (recognizer == null) {
-				recognizer = new HolisticWordRecognizer();
+				recognizer = new HolisticWordRecognizer(wordingChartFactory, length + 1);
 				recognizerMap.put(ch, recognizer);
 			}
 			recognizer.addWordType(pattern, type, index + 1);
@@ -91,8 +124,7 @@ public class HolisticWordRecognizer {
 	 * @throws IOException when a chart document cannot be created
 	 */
 	public final WordingChart recognizeWords(String wording) throws IOException {
-		WordingChartFactory wordingChartFactory = new WordingChartFactory();
-		WordingChart chart = wordingChartFactory.newWordingChartHal();
+		WordingChart chart = wordingChartFactory.newWordingChart();
 		chart.setWording(wording);
 		for (int index = 0; index < wording.length(); index++) {
 			for (Word word : recognizeWords(wording, index)) {
@@ -171,5 +203,5 @@ public class HolisticWordRecognizer {
 			recognizer.appendString(buffer, indent + " ");
 		}
 	}
-}
 
+}

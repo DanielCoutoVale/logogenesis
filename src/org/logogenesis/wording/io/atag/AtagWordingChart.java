@@ -22,7 +22,7 @@ import org.w3c.dom.Text;
  * 
  * @author Daniel Couto-Vale
  */
-public class WordingChartAtag implements WordingChart, Storable {
+public class AtagWordingChart implements WordingChart, Storable {
 
 	/**
 	 * The document of the wording segmentation
@@ -49,7 +49,7 @@ public class WordingChartAtag implements WordingChart, Storable {
 	 * 
 	 * @param document the document of the wording segmentation
 	 */
-	WordingChartAtag(Document document, Storable storable) {
+	AtagWordingChart(Document document, Storable storable) {
 		this.document = document;
 		this.storable = storable;
 		XPathFactory xpathFactory = XPathFactory.newInstance();

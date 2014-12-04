@@ -7,6 +7,9 @@ import org.logogenesis.wording.HolisticWordingSegmenter;
 import org.logogenesis.wording.ReductionistWordingSegmenter;
 import org.logogenesis.wording.WordingSegmenter;
 import org.logogenesis.wording.io.WordingChart;
+import org.logogenesis.wording.io.WordingChartFactory;
+import org.logogenesis.wording.io.atag.AtagWordingChartFactory;
+import org.logogenesis.wording.io.hal.HalWordingChartFactory;
 
 /**
  * Segments a wording using a wording segmenter.
@@ -16,10 +19,15 @@ import org.logogenesis.wording.io.WordingChart;
 public class UsageExample {
 
 	public static void main(String[] args) throws IOException {
-		String wording = "Unser Prozess ermöglicht es uns, Projekte schnell herzustellen. Wir stellen Projekte schnell her.";
-		
+		String wording = "Unser Prozess ermöglicht es uns, Projekte schnell herzustellen. "
+				+ "Wir stellen Projekte schnell her.";
+		illustrateUsage(wording, new HalWordingChartFactory());
+		illustrateUsage(wording, new AtagWordingChartFactory());
+	}
+
+	private static void illustrateUsage(String wording, WordingChartFactory factory) {
 		// Segments the wording with a holistic theory
-		HolisticWordRecognizer wordRecognizer = new HolisticWordRecognizer();
+		HolisticWordRecognizer wordRecognizer = new HolisticWordRecognizer(factory);
 		wordRecognizer.addWordType("Unser", 1);
 		wordRecognizer.addWordType("Prozess", 2);
 		wordRecognizer.addWordType("ermöglicht", 3);
@@ -45,7 +53,7 @@ public class UsageExample {
 
 		// Segments the wording with a reductionist theory
 		System.out.println("REDUCTIONIST CHART");
-		WordingSegmenter reductionistSegmenter = new ReductionistWordingSegmenter();
+		WordingSegmenter reductionistSegmenter = new ReductionistWordingSegmenter(factory);
 		WordingChart reductionistChart = reductionistSegmenter.segmentWording(wording);
 		System.out.println(reductionistChart);
 	}
