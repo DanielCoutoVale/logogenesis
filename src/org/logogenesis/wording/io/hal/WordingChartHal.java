@@ -1,4 +1,4 @@
-package org.logogenesis.wording.io;
+package org.logogenesis.wording.io.hal;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -10,6 +10,8 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.logogenesis.wording.Word;
+import org.logogenesis.wording.io.Storable;
+import org.logogenesis.wording.io.WordingChart;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -49,8 +51,10 @@ public final class WordingChartHal implements WordingChart, Storable {
 	WordingChartHal(Document document, Storable storable) {
 		this.document = document;
 		this.storable = storable;
+		Element chartElm = document.getDocumentElement();
+		this.wording = chartElm.getAttribute("form");
 		XPathFactory xpathFactory = XPathFactory.newInstance();
-		xpath = xpathFactory.newXPath();
+		this.xpath = xpathFactory.newXPath();
 	}
 
 	@Override

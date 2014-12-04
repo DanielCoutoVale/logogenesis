@@ -1,11 +1,8 @@
 package org.logogenesis.wording;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.logogenesis.wording.io.WordingChart;
-import org.logogenesis.wording.io.WordingChartFactory;
 
 /**
  * A wording segmenter that implements a holistic approach to segmentation.

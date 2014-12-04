@@ -92,7 +92,7 @@ public class HolisticWordRecognizer {
 	 */
 	public final WordingChart recognizeWords(String wording) throws IOException {
 		WordingChartFactory wordingChartFactory = new WordingChartFactory();
-		WordingChart chart = wordingChartFactory.newWordingChart();
+		WordingChart chart = wordingChartFactory.newWordingChartHal();
 		chart.setWording(wording);
 		for (int index = 0; index < wording.length(); index++) {
 			for (Word word : recognizeWords(wording, index)) {
