@@ -1,4 +1,4 @@
 logogenesis
 ===========
 
-An Application Programming Interface for both holistic and reductionist approaches to automatic analysis of wordings.
+An Application Programming Interface for both systemic and formalist approaches to automatic analysis of wordings.
