@@ -18,7 +18,7 @@ import org.w3c.dom.Document;
 /**
  * Implements the storable interface for other classes.
  * 
- * @author Daniel Couto Vale <danielvale@uni-bremen.de>
+ * @author Daniel Couto-Vale
  */
 public class StorableDocument implements Storable {
 

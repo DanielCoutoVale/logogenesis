@@ -1,4 +1,4 @@
-package org.logogenesis.wording.io;
+package org.logogenesis.wording.io.hal;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -10,6 +10,8 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.logogenesis.wording.Word;
+import org.logogenesis.wording.io.Storable;
+import org.logogenesis.wording.io.WordingChart;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -17,9 +19,9 @@ import org.w3c.dom.NodeList;
 /**
  * A wording segmentation in the format Human Adult Language (HAL).
  * 
- * @author Daniel Couto Vale <danielvale@uni-bremen.de>
+ * @author Daniel Couto-Vale
  */
-public final class WordingChartHal implements WordingChart, Storable {
+public final class HalWordingChart implements WordingChart, Storable {
 
 	/**
 	 * The document of the wording segmentation
@@ -46,11 +48,13 @@ public final class WordingChartHal implements WordingChart, Storable {
 	 * 
 	 * @param document the document of the wording segmentation
 	 */
-	WordingChartHal(Document document, Storable storable) {
+	HalWordingChart(Document document, Storable storable) {
 		this.document = document;
 		this.storable = storable;
+		Element chartElm = document.getDocumentElement();
+		this.wording = chartElm.getAttribute("form");
 		XPathFactory xpathFactory = XPathFactory.newInstance();
-		xpath = xpathFactory.newXPath();
+		this.xpath = xpathFactory.newXPath();
 	}
 
 	@Override
@@ -79,11 +83,11 @@ public final class WordingChartHal implements WordingChart, Storable {
 	public final boolean isListable() {
 		int start = 0;
 		while (start < wording.length()) {
-			int size = getWords(start).size();
+			int size = getWordsStartingAt(start).size();
 			if (size != 1) {
 				return false;
 			} else {
-				start += getWords(start).get(0).getLength();
+				start += getWordsStartingAt(start).get(0).getLength();
 			}
 		}
 		return true;
@@ -92,6 +96,8 @@ public final class WordingChartHal implements WordingChart, Storable {
 	@Override
 	public final void setWording(String wording) {
 		this.wording = wording;
+		Element chartElm = document.getDocumentElement();
+		chartElm.setAttribute("form", wording);
 	}
 
 	@Override
@@ -110,9 +116,10 @@ public final class WordingChartHal implements WordingChart, Storable {
 		wordElm.setAttribute("id", Integer.toString(id));
 		wordElm.setAttribute("start", Integer.toString(start));
 		wordElm.setAttribute("length", Integer.toString(length));
+		wordElm.setAttribute("end", Integer.toString(start + length));
 		wordElm.setAttribute("form", this.wording.substring(start, start + length));
-		Element chart = document.getDocumentElement();
-		chart.appendChild(wordElm);
+		Element chartElm = document.getDocumentElement();
+		chartElm.appendChild(wordElm);
 		for (int i = 0; i < types.length; i++) {
 			Element wordTypeElm = document.createElement("WordType");
 			wordTypeElm.setAttribute("index", Integer.toString(types[i]));
@@ -135,16 +142,38 @@ public final class WordingChartHal implements WordingChart, Storable {
 	}
 
 	@Override
-	public final Word getWord(int elmId) {
-		Element wordElm = document.getElementById(Integer.toString(elmId));
-		Word word = makeWord(wordElm);
-		return word;
+	public final Word getWord(int id) {
+		try {
+			String expression = "/WordingChart/Word[@id='" + Integer.toString(id) + "']";
+			Element wordElm = (Element) xpath.compile(expression).evaluate(this.document, XPathConstants.NODE);
+			Word word = makeWord(wordElm);
+			return word;
+		} catch (XPathExpressionException e) {
+			return null;
+		}
 	}
 
 	@Override
-	public final List<Word> getWords(int start) {
+	public final List<Word> getWordsStartingAt(int start) {
 		try {
-			String expression = "/WordChart/Word[@start='" + Integer.toString(start) + "']";
+			String expression = "/WordingChart/Word[@start='" + Integer.toString(start) + "']";
+			NodeList wordElms = (NodeList) xpath.compile(expression).evaluate(this.document, XPathConstants.NODESET);
+			List<Word> words = new LinkedList<Word>();
+			for (int i = 0; i < wordElms.getLength(); i++) {
+				Element wordElm = (Element) wordElms.item(i);
+				Word word = makeWord(wordElm);
+				words.add(word);
+			}
+			return words;
+		} catch (XPathExpressionException e) {
+			return new LinkedList<Word>();
+		}
+	}
+
+	@Override
+	public final List<Word> getWordsEndingAt(int end) {
+		try {
+			String expression = "/WordingChart/Word[@end='" + Integer.toString(end) + "']";
 			NodeList wordElms = (NodeList) xpath.compile(expression).evaluate(this.document, XPathConstants.NODESET);
 			List<Word> words = new LinkedList<Word>();
 			for (int i = 0; i < wordElms.getLength(); i++) {
@@ -160,8 +189,12 @@ public final class WordingChartHal implements WordingChart, Storable {
 
 	@Override
 	public final void removeWord(int id) {
-		Element wordElm = document.getElementById(Integer.toString(id));
-		document.removeChild(wordElm);
+		try {
+			String expression = "/WordingChart/Word[@id='" + Integer.toString(id) + "']";
+			Element wordElm = (Element) xpath.compile(expression).evaluate(this.document, XPathConstants.NODE);
+			wordElm.getParentNode().removeChild(wordElm);
+		} catch (XPathExpressionException e) {
+		}
 	}
 
 	@Override

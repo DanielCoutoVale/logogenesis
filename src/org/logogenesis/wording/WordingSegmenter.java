@@ -7,7 +7,7 @@ import org.logogenesis.wording.io.WordingChart;
 /**
  * A wording segmenter.
  * 
- * @author Daniel Couto Vale <danielvale@uni-bremen.de>
+ * @author Daniel Couto-Vale
  */
 public interface WordingSegmenter {
 

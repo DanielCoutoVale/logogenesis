@@ -12,7 +12,7 @@ import org.logogenesis.wording.Word;
  * the string "I love you!" would be "I" (0, 1), " " (1, 2), "love" (2, 6), "you" (6, 9), and "!"
  * (9, 10). Words are identified by unique integers randomly.
  *
- * @author Daniel Couto Vale <danielvale@uni-bremen.de>
+ * @author Daniel Couto-Vale
  */
 public interface WordingChart {
 
@@ -70,7 +70,15 @@ public interface WordingChart {
 	 * @param start the start node
 	 * @return the words starting at the given node
 	 */
-	public List<Word> getWords(int start);
+	public List<Word> getWordsStartingAt(int start);
+
+	/**
+	 * The list of words ending at a given node.
+	 * 
+	 * @param start the start node
+	 * @return the words ending at the given node
+	 */
+	public List<Word> getWordsEndingAt(int end);
 
 	/**
 	 * Removes the identified word from the chart.
