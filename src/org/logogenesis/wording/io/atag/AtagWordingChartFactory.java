@@ -10,9 +10,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.logogenesis.wording.io.StorableDocument;
 import org.logogenesis.wording.io.WordingChart;
 import org.logogenesis.wording.io.WordingChartFactory;
-import org.logogenesis.wording.io.hal.HalWordingChart;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 public class AtagWordingChartFactory extends WordingChartFactory {
 
@@ -34,13 +34,13 @@ public class AtagWordingChartFactory extends WordingChartFactory {
 	@Override
 	public final WordingChart openWordingChart(String filePath) {
 		try {
-			// FIXME This code should open a file and not create a new document out of scratch
+			File file = new File(filePath);
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-			Document document = documentBuilder.newDocument();
+			Document document = documentBuilder.parse(file);
 			document.setXmlStandalone(true);
 			return new AtagWordingChart(document, new StorableDocument(document, new File(filePath)));
-		} catch (ParserConfigurationException e) {
+		} catch (ParserConfigurationException | SAXException | IOException e) {
 			return null;
 		}
 	}
