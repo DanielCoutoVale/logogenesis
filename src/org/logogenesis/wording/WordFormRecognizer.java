@@ -125,7 +125,7 @@ public class WordFormRecognizer {
 	 */
 	public final WordingChart recognizeWords(String wording) throws IOException {
 		WordingChart chart = wordingChartFactory.newWordingChart();
-		chart.setWording(wording);
+		chart.setCharacterSequence(wording);
 		for (int index = 0; index < wording.length(); index++) {
 			for (Word word : recognizeWords(wording, index)) {
 				chart.addWord(word);

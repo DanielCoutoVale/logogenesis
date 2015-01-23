@@ -26,18 +26,18 @@ public interface WordingChart {
 	public boolean isListable();
 
 	/**
-	 * Sets the wording of the chart.
+	 * Sets the character sequence of the chart.
 	 * 
-	 * @param wording the wording of the chart.
+	 * @param chars the character sequence.
 	 */
-	public void setWording(String wording);
+	public void setCharacterSequence(String chars);
 
 	/**
-	 * Gets the wording of the chart
+	 * Gets the character sequence of the chart
 	 * 
-	 * @return the wording of the chart.
+	 * @return the character sequence of the chart.
 	 */
-	public String getWording();
+	public String getCharacterSequence();
 
 	/**
 	 * Adds a word to the chart

@@ -34,9 +34,9 @@ public final class HalWordingChart implements WordingChart, Storable {
 	private final Storable storable;
 
 	/**
-	 * The wording 
+	 * The character sequence 
 	 */
-	private String wording;
+	private String chars;
 
 	/**
 	 * Xpath
@@ -52,7 +52,7 @@ public final class HalWordingChart implements WordingChart, Storable {
 		this.document = document;
 		this.storable = storable;
 		Element chartElm = document.getDocumentElement();
-		this.wording = chartElm.getAttribute("form");
+		this.chars = chartElm.getAttribute("chars");
 		XPathFactory xpathFactory = XPathFactory.newInstance();
 		this.xpath = xpathFactory.newXPath();
 	}
@@ -82,7 +82,7 @@ public final class HalWordingChart implements WordingChart, Storable {
 	@Override
 	public final boolean isListable() {
 		int start = 0;
-		while (start < wording.length()) {
+		while (start < chars.length()) {
 			int size = getWordsStartingAt(start).size();
 			if (size != 1) {
 				return false;
@@ -94,15 +94,15 @@ public final class HalWordingChart implements WordingChart, Storable {
 	}
 
 	@Override
-	public final void setWording(String wording) {
-		this.wording = wording;
+	public final void setCharacterSequence(String chars) {
+		this.chars = chars;
 		Element chartElm = document.getDocumentElement();
-		chartElm.setAttribute("form", wording);
+		chartElm.setAttribute("chars", chars);
 	}
 
 	@Override
-	public final String getWording() {
-		return wording;
+	public final String getCharacterSequence() {
+		return chars;
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public final class HalWordingChart implements WordingChart, Storable {
 		wordElm.setAttribute("start", Integer.toString(start));
 		wordElm.setAttribute("length", Integer.toString(length));
 		wordElm.setAttribute("end", Integer.toString(start + length));
-		wordElm.setAttribute("form", this.wording.substring(start, start + length));
+		wordElm.setAttribute("form", this.chars.substring(start, start + length));
 		Element chartElm = document.getDocumentElement();
 		chartElm.appendChild(wordElm);
 		for (int i = 0; i < types.length; i++) {
@@ -137,7 +137,7 @@ public final class HalWordingChart implements WordingChart, Storable {
 			Element wordTypeElm = (Element)typeElms.item(i);
 			types[i] = Integer.parseInt(wordTypeElm.getAttribute("index"));
 		}
-		Word word = new Word(wording, id, start, length, types);
+		Word word = new Word(chars, id, start, length, types);
 		return word;
 	}
 
@@ -199,7 +199,7 @@ public final class HalWordingChart implements WordingChart, Storable {
 
 	@Override
 	public final int length() {
-		return wording.length();
+		return chars.length();
 	}
 
 }

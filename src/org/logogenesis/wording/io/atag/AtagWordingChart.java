@@ -35,9 +35,9 @@ public class AtagWordingChart implements WordingChart, Storable {
 	private final Storable storable;
 
 	/**
-	 * The wording 
+	 * The character sequence
 	 */
-	private String wording;
+	private String chars;
 
 	/**
 	 * Xpath
@@ -97,7 +97,7 @@ public class AtagWordingChart implements WordingChart, Storable {
 	@Override
 	public final boolean isListable() {
 		int cur = 0;
-		while (cur < wording.length()) {
+		while (cur < chars.length()) {
 			int size = getWordsStartingAt(cur).size();
 			if (size != 1) {
 				return false;
@@ -109,13 +109,13 @@ public class AtagWordingChart implements WordingChart, Storable {
 	}
 
 	@Override
-	public final void setWording(String wording) {
-		this.wording = wording;
+	public final void setCharacterSequence(String chars) {
+		this.chars = chars;
 	}
 
 	@Override
-	public final String getWording() {
-		return wording;
+	public final String getCharacterSequence() {
+		return chars;
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class AtagWordingChart implements WordingChart, Storable {
 		Element wordElm = document.createElement("W");
 		wordElm.setAttribute("id", Integer.toString(id));
 		wordElm.setAttribute("cur", Integer.toString(start));
-		Text formTxt = document.createTextNode(this.wording.substring(start, start + length));
+		Text formTxt = document.createTextNode(this.chars.substring(start, start + length));
 		wordElm.appendChild(formTxt);
 		Element chartElm = document.getDocumentElement();
 		chartElm.appendChild(wordElm);
@@ -141,7 +141,7 @@ public class AtagWordingChart implements WordingChart, Storable {
 		String form = formTxt.getTextContent();
 		int length = form.length();
 		int[] types = new int[0];
-		Word word = new Word(wording, id, start, length, types);
+		Word word = new Word(chars, id, start, length, types);
 		return word;
 	}
 
@@ -205,7 +205,7 @@ public class AtagWordingChart implements WordingChart, Storable {
 
 	@Override
 	public final int length() {
-		return wording.length();
+		return chars.length();
 	}
 
 }

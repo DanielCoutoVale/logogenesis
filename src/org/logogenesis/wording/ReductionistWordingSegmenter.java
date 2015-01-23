@@ -43,7 +43,7 @@ public class ReductionistWordingSegmenter implements WordingSegmenter {
 	public final WordingChart segmentWording(String wording) {
 		try {
 			WordingChart chart = wordingChartFactory.newWordingChart();
-			chart.setWording(wording);
+			chart.setCharacterSequence(wording);
 			int nextId = 1;
 			int start = 0;
 			for (int index = 1; index < wording.length(); index++) {
