@@ -7,24 +7,30 @@ import org.logogenesis.wording.io.WordingChart;
 
 /**
  * 
- * @author 
+ * @author
  */
 public class SequentialWordingFormBuilder implements WordingFormBuilder {
 
 	@Override
 	public List<String> buildWordingForms(WordingChart wordingChart) {
 		// TODO Auto-generated method stub
-		return buildWordingForms(wordingChart,0);
+		return buildWordingForms(wordingChart, 0);
 	}
 
 	private List<String> buildWordingForms(WordingChart wordingChart, int start) {
-		// TODO Auto-generated method stub
 		List<String> wordingForms = new LinkedList<String>();
+
 		List<Word> words = wordingChart.getWordsStartingAt(start);
-		for (Word word: words){
-			List<String> remainders = buildWordingForms(wordingChart, word.getEnd());
-			for(String remainder: remainders){
-				String wordingForm = word.getPattern().replace(' ', '-') + " " + remainder;
+		for (Word word : words) {
+			if (word.getEnd() == wordingChart.length()) {
+				wordingForms.add(word.getPattern());
+				continue;
+			}
+			List<String> remainders = buildWordingForms(wordingChart,
+					word.getEnd());
+			for (String remainder : remainders) {
+				String wordingForm = word.getPattern().replace(' ', '-') + " "
+						+ remainder;
 				wordingForms.add(wordingForm);
 			}
 		}
