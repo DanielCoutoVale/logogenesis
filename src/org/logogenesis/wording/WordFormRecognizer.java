@@ -16,7 +16,7 @@ import org.logogenesis.wording.io.hal.HalWordingChartFactory;
  * 
  * @author Daniel Couto-Vale
  */
-public class HolisticWordRecognizer {
+public class WordFormRecognizer {
 
 	/**
 	 * The id of the next recognized word
@@ -26,7 +26,7 @@ public class HolisticWordRecognizer {
 	/**
 	 * Map from character to word recognizers
 	 */
-	private final Map<Character, HolisticWordRecognizer> recognizerMap;
+	private final Map<Character, WordFormRecognizer> recognizerMap;
 
 	/**
 	 * The wording selected wording chart factory 
@@ -47,7 +47,7 @@ public class HolisticWordRecognizer {
 	/**
 	 * Constructor
 	 */
-	public HolisticWordRecognizer() {
+	public WordFormRecognizer() {
 		this(new HalWordingChartFactory(), 1);
 	}
 
@@ -56,7 +56,7 @@ public class HolisticWordRecognizer {
 	 * 
 	 * @param wordingChartFactory the wording chart factory
 	 */
-	public HolisticWordRecognizer(WordingChartFactory wordingChartFactory) {
+	public WordFormRecognizer(WordingChartFactory wordingChartFactory) {
 		this(wordingChartFactory, 1);
 	}
 
@@ -66,8 +66,8 @@ public class HolisticWordRecognizer {
 	 * @param wordingChartFactory the wording chart factory
 	 * @param length the length of the words stored at this level
 	 */
-	private HolisticWordRecognizer(WordingChartFactory wordingChartFactory, int length) {
-		recognizerMap = new HashMap<Character, HolisticWordRecognizer>();
+	private WordFormRecognizer(WordingChartFactory wordingChartFactory, int length) {
+		recognizerMap = new HashMap<Character, WordFormRecognizer>();
 		this.wordingChartFactory = wordingChartFactory;
 		this.length = length;
 	}
@@ -96,9 +96,9 @@ public class HolisticWordRecognizer {
 	public final void addWordType(String pattern, int type, int index) {
 		if (index + 1 < pattern.length()) {
 			char ch = pattern.charAt(index);
-			HolisticWordRecognizer recognizer = recognizerMap.get(ch);
+			WordFormRecognizer recognizer = recognizerMap.get(ch);
 			if (recognizer == null) {
-				recognizer = new HolisticWordRecognizer(wordingChartFactory, length + 1);
+				recognizer = new WordFormRecognizer(wordingChartFactory, length + 1);
 				recognizerMap.put(ch, recognizer);
 			}
 			recognizer.addWordType(pattern, type, index + 1);
@@ -168,7 +168,7 @@ public class HolisticWordRecognizer {
 			}
 		}
 		if (index + 1 < wording.length()) {
-			HolisticWordRecognizer recognizer = recognizerMap.get(ch);
+			WordFormRecognizer recognizer = recognizerMap.get(ch);
 			if (recognizer != null) {
 				recognizer.recognizeWords(wording, index + 1, words);
 			}
@@ -199,7 +199,7 @@ public class HolisticWordRecognizer {
 		}
 		for (Character ch : recognizerMap.keySet()) {
 			buffer.append(indent + "'" + ch + "' " + length + "\n");
-			HolisticWordRecognizer recognizer = recognizerMap.get(ch);
+			WordFormRecognizer recognizer = recognizerMap.get(ch);
 			recognizer.appendString(buffer, indent + " ");
 		}
 	}

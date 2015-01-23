@@ -2,7 +2,7 @@ package org.logogenesis.wording.scripts;
 
 import java.io.IOException;
 
-import org.logogenesis.wording.HolisticWordRecognizer;
+import org.logogenesis.wording.WordFormRecognizer;
 import org.logogenesis.wording.HolisticWordingSegmenter;
 import org.logogenesis.wording.ReductionistWordingSegmenter;
 import org.logogenesis.wording.WordingSegmenter;
@@ -27,7 +27,7 @@ public class UsageExample {
 
 	private static void illustrateUsage(String wording, WordingChartFactory factory) {
 		// Segments the wording with a holistic theory
-		HolisticWordRecognizer wordRecognizer = new HolisticWordRecognizer(factory);
+		WordFormRecognizer wordRecognizer = new WordFormRecognizer(factory);
 		wordRecognizer.addWordType("Unser", 1);
 		wordRecognizer.addWordType("Prozess", 2);
 		wordRecognizer.addWordType("ermöglicht", 3);

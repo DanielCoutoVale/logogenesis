@@ -14,14 +14,14 @@ public class HolisticWordingSegmenter implements WordingSegmenter {
 	/**
 	 * The word recognizer
 	 */
-	private HolisticWordRecognizer wordRecognizer;
+	private WordFormRecognizer wordRecognizer;
 
 	/**
 	 * Constructor
 	 * 
 	 * @param wordRecognizer the word recognizer
 	 */
-	public HolisticWordingSegmenter(HolisticWordRecognizer wordRecognizer) {
+	public HolisticWordingSegmenter(WordFormRecognizer wordRecognizer) {
 		this.wordRecognizer = wordRecognizer;
 	}
 
