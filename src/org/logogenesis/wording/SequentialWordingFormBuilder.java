@@ -1,5 +1,6 @@
 package org.logogenesis.wording;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.logogenesis.wording.io.WordingChart;
@@ -13,7 +14,21 @@ public class SequentialWordingFormBuilder implements WordingFormBuilder {
 	@Override
 	public List<String> buildWordingForms(WordingChart wordingChart) {
 		// TODO Auto-generated method stub
-		return null;
+		return buildWordingForms(wordingChart,0);
+	}
+
+	private List<String> buildWordingForms(WordingChart wordingChart, int start) {
+		// TODO Auto-generated method stub
+		List<String> wordingForms = new LinkedList<String>();
+		List<Word> words = wordingChart.getWordsStartingAt(start);
+		for (Word word: words){
+			List<String> remainders = buildWordingForms(wordingChart, word.getEnd());
+			for(String remainder: remainders){
+				String wordingForm = word.getPattern().replace(' ', '-') + " " + remainder;
+				wordingForms.add(wordingForm);
+			}
+		}
+		return wordingForms;
 	}
 
 }
