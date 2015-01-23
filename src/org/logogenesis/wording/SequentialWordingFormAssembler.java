@@ -32,13 +32,6 @@ public class SequentialWordingFormAssembler implements WordingFormAssembler {
 		this.wordingFormBuilder = new SequentialWordingFormBuilder();
 	}
 
-	/**
-	 * Constructor
-	 */
-	public SequentialWordingFormAssembler() {
-		this(new WordFormRecognizer());
-	}
-
 	@Override
 	public List<String> buildWordingForms(String characterSequence) throws IOException {
 		WordingChart wordingChart = wordFormRecognizer.recognizeWords(characterSequence);

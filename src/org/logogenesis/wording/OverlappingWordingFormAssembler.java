@@ -32,13 +32,6 @@ public class OverlappingWordingFormAssembler implements WordingFormAssembler {
 		this.wordingFormBuilder = new OverlappingWordingFormBuilder();
 	}
 
-	/**
-	 * Constructor
-	 */
-	public OverlappingWordingFormAssembler() {
-		this(new WordFormRecognizer());
-	}
-
 	@Override
 	public List<String> buildWordingForms(String characterSequence) throws IOException {
 		WordingChart wordingChart = wordFormRecognizer.recognizeWords(characterSequence);
