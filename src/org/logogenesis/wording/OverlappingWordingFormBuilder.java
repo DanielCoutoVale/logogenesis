@@ -6,48 +6,70 @@ import java.util.List;
 import org.logogenesis.wording.io.WordingChart;
 
 /**
+ * A builder of overlapping wording forms
  * 
- * @author 
+ * @author Adjan Hansen
  */
 public class OverlappingWordingFormBuilder implements WordingFormBuilder {
 
 	@Override
-	public List<String> buildWordingForms(WordingChart wordingChart) {
-		// TODO Auto-generated method stub
+	public final List<String> buildWordingForms(WordingChart wordingChart) {
 		return buildWordingForms(wordingChart, 0);
 	}
 
-	private List<String> buildWordingForms(WordingChart wordingChart, int start) {
+	/**
+	 * Builds wording forms for a chart and a start position
+	 * 
+	 * @param wordingChart the chart
+	 * @param start the start of the wording forms
+	 * @return the wording forms
+	 */
+	private final List<String> buildWordingForms(WordingChart wordingChart, int start) {
 		List<String> wordingForms = new LinkedList<String>();
-
-		List<Word> words = wordingChart.getWordsStartingAt(start);
-		for (Word word : words) {
-			if (word.getEnd() == wordingChart.length()) {
-				wordingForms.add(word.getPattern());
-				continue;
-			}
-			int end = word.getEnd();
-			collectWordingForms(wordingChart, wordingForms,
-					word, end);
-			if(word.getLength()==1){
-				continue;
-			}
-			collectWordingForms(wordingChart, wordingForms,
-					word, end-1);
-		}
+		collectWordingForms(wordingChart, start, wordingForms);
 		return wordingForms;
 	}
 
-	private List<String> collectWordingForms(WordingChart wordingChart,
-			List<String> wordingForms, Word word, int end) {
-		List<String> remainders = buildWordingForms(wordingChart,
-				end);
+	/**
+	 * Collects wording forms for a chart and a start position
+	 * 
+	 * @param wordingChart the chart
+	 * @param start the start of the wordingforms
+	 * @param wordingForms the wording forms
+	 */
+	private final void collectWordingForms(WordingChart wordingChart, int start,
+			List<String> wordingForms) {
+		List<Word> words = wordingChart.getWordsStartingAt(start);
+		for (Word word : words) {
+			if (word.getEnd() == wordingChart.length()) {
+				wordingForms.add(word.getForm());
+				continue;
+			}
+			int end = word.getEnd();
+			collectWordingForms(wordingChart, wordingForms, word, end);
+			if (word.getLength() == 1) {
+				continue;
+			}
+			collectWordingForms(wordingChart, wordingForms, word, end - 1);
+		}
+	}
+
+	/**
+	 * Collects a list of wording forms for a chart and a word.
+	 * 
+	 * @param wordingChart the chart
+	 * @param wordingForms the wording forms
+	 * @param word the word
+	 * @param start the start of the remainder
+	 */
+	private final void collectWordingForms(WordingChart wordingChart, List<String> wordingForms,
+			Word word, int start) {
+		List<String> remainders = buildWordingForms(wordingChart, start);
 		for (String remainder : remainders) {
-			String wordingForm = word.getPattern().replace(' ', '-') + " "
-					+ remainder;
+			String wordForm = word.getForm().replace(' ', '-');
+			String wordingForm = wordForm + " " + remainder;
 			wordingForms.add(wordingForm);
 		}
-		return remainders;
 	}
 
 }

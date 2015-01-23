@@ -6,35 +6,66 @@ import java.util.List;
 import org.logogenesis.wording.io.WordingChart;
 
 /**
+ * A builder of sequential wording forms
  * 
- * @author
+ * @author Adjan Hansen
  */
 public class SequentialWordingFormBuilder implements WordingFormBuilder {
 
 	@Override
-	public List<String> buildWordingForms(WordingChart wordingChart) {
-		// TODO Auto-generated method stub
+	public final List<String> buildWordingForms(WordingChart wordingChart) {
 		return buildWordingForms(wordingChart, 0);
 	}
 
-	private List<String> buildWordingForms(WordingChart wordingChart, int start) {
+	/**
+	 * Builds wording forms for a chart and a start position
+	 * 
+	 * @param wordingChart the chart
+	 * @param start the start of the wording forms
+	 * @return the wording forms
+	 */
+	private final List<String> buildWordingForms(WordingChart wordingChart, int start) {
 		List<String> wordingForms = new LinkedList<String>();
+		collectWordingForms(wordingChart, start, wordingForms);
+		return wordingForms;
+	}
 
+	/**
+	 * Collects wording forms for a chart and a start position
+	 * 
+	 * @param wordingChart the chart
+	 * @param start the start of the remainder
+	 * @param wordingForms the wording forms
+	 */
+	private final void collectWordingForms(WordingChart wordingChart, int start,
+			List<String> wordingForms) {
 		List<Word> words = wordingChart.getWordsStartingAt(start);
 		for (Word word : words) {
 			if (word.getEnd() == wordingChart.length()) {
-				wordingForms.add(word.getPattern());
+				wordingForms.add(word.getForm());
 				continue;
 			}
-			List<String> remainders = buildWordingForms(wordingChart,
-					word.getEnd());
-			for (String remainder : remainders) {
-				String wordingForm = word.getPattern().replace(' ', '-') + " "
-						+ remainder;
-				wordingForms.add(wordingForm);
-			}
+			int end = word.getEnd();
+			collectWordingForms(wordingChart, wordingForms, word, end);
 		}
-		return wordingForms;
+	}
+
+	/**
+	 * Collects a list of wording forms for a chart and a word.
+	 * 
+	 * @param wordingChart the chart
+	 * @param wordingForms the wording forms
+	 * @param word the word
+	 * @param start the start of the remainder
+	 */
+	private final void collectWordingForms(WordingChart wordingChart, List<String> wordingForms,
+			Word word, int start) {
+		List<String> remainders = buildWordingForms(wordingChart, start);
+		for (String remainder : remainders) {
+			String wordForm = word.getForm().replace(' ', '-');
+			String wordingForm = wordForm + " " + remainder;
+			wordingForms.add(wordingForm);
+		}
 	}
 
 }
