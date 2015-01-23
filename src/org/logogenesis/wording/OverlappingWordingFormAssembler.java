@@ -6,11 +6,11 @@ import java.util.List;
 import org.logogenesis.wording.io.WordingChart;
 
 /**
- * An assembler of sequential wording forms from character sequences.
+ * An assembler of overlapping wording forms from character sequences.
  * 
  * @author Daniel Couto-Vale <daniel.couto-vale@ifaar.rwth-aachen.de>
  */
-public class SequentialWordingFormAssembler implements WordingFormAssembler {
+public class OverlappingWordingFormAssembler implements WordingFormAssembler {
 
 	/**
 	 * A word form recognizer
@@ -27,15 +27,15 @@ public class SequentialWordingFormAssembler implements WordingFormAssembler {
 	 * 
 	 * @param wordFormRecognizer a wording form recognizer
 	 */
-	public SequentialWordingFormAssembler(WordFormRecognizer wordFormRecognizer) {
+	public OverlappingWordingFormAssembler(WordFormRecognizer wordFormRecognizer) {
 		this.wordFormRecognizer = wordFormRecognizer;
-		this.wordingFormBuilder = new SequentialWordingFormBuilder();
+		this.wordingFormBuilder = new OverlappingWordingFormBuilder();
 	}
 
 	/**
 	 * Constructor
 	 */
-	public SequentialWordingFormAssembler() {
+	public OverlappingWordingFormAssembler() {
 		this(new WordFormRecognizer());
 	}
 
