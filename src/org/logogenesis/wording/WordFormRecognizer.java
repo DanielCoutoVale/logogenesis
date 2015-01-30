@@ -76,34 +76,30 @@ public class WordFormRecognizer {
 	 * Adds a word type to the word recognizer
 	 *  
 	 * @param pattern the pattern to add
-	 * @param sort the sort of the word (combinatory type)
-	 * @param term the term of the word (semantical type)
-	 * @param form the form of the word (inflectional type)
+	 * @param sort the type of the word
 	 */
-	public final void addWordType(String pattern, int type) {
-		addWordType(pattern, type, 0);
+	public final void addType(String pattern, int type) {
+		addType(pattern, type, 0);
 	}
 
 	/**
 	 * Adds a word type to the word recognizer
 	 *  
-	 * @param pattern the pattern to add
-	 * @param sort the sort of the word (combinatory type)
-	 * @param term the term of the word (semantical type)
-	 * @param form the form of the word (inflectional type)
+	 * @param form the pattern to add
+	 * @param sort the type of the word
 	 * @param index the index of the pattern
 	 */
-	public final void addWordType(String pattern, int type, int index) {
-		if (index + 1 < pattern.length()) {
-			char ch = pattern.charAt(index);
+	public final void addType(String form, int type, int index) {
+		if (index + 1 < form.length()) {
+			char ch = form.charAt(index);
 			WordFormRecognizer recognizer = recognizerMap.get(ch);
 			if (recognizer == null) {
 				recognizer = new WordFormRecognizer(wordingChartFactory, length + 1);
 				recognizerMap.put(ch, recognizer);
 			}
-			recognizer.addWordType(pattern, type, index + 1);
+			recognizer.addType(form, type, index + 1);
 		} else {
-			char ch = pattern.charAt(index);
+			char ch = form.charAt(index);
 			if (typesMap == null) {
 				typesMap = new HashMap<Character, List<Integer>>();
 			}
